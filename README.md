@@ -76,6 +76,29 @@ Recibe en el cuerpo un JSON con `nombre`, `correo`, `telefono`, `taller` y `hora
 | `400 Bad Request` | Falta algún campo o está vacío | `{ "mensaje": "Todos los campos son obligatorios." }` |
 | `400 Bad Request` | El correo no tiene formato válido | `{ "mensaje": "El correo no tiene un formato válido." }` |
 
+## Cómo probar la API
+Con el servidor encendido (`npm start`):
+
+**Probar GET:** abre en el navegador `http://localhost:3000/api/inscripciones`. Al inicio verás `[]`.
+
+**Probar POST desde el formulario:** abre `http://localhost:3000`, llena los cinco campos y presiona **Registrar inscripción**. El registro aparece en la lista sin recargar la página y también en el GET.
+
+**Probar POST desde la terminal (PowerShell):** abre una segunda terminal y ejecuta:
+
+```powershell
+Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/inscripciones -ContentType "application/json; charset=utf-8" -Body '{"nombre":"Ana Perez","correo":"ana.perez@correo.com","telefono":"5555-1234","taller":"JavaScript","horario":"Tarde"}'
+```
+
+Para comprobar el error `400`, repite el comando con un correo sin `@` (por ejemplo `"ana-correo.com"`) o borrando uno de los campos.
+
+### Casos de prueba
+| Caso | Resultado esperado |
+|---|---|
+| Envío válido | El registro aparece en la lista sin recargar la página |
+| Campo vacío | El navegador avisa que el campo es obligatorio; el servidor responde `400` |
+| Correo inválido | El registro no se guarda; el servidor responde `400` |
+| Ancho de teléfono | La página se mantiene legible gracias al media query de 640 px |
+
 ## Estructura del proyecto
 ```
 registro-taller-estudiante/
