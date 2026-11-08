@@ -17,33 +17,65 @@
 
     <section class="panel" aria-labelledby="titulo-formulario">
       <h2 id="titulo-formulario">Datos de inscripción</h2>
-      <form id="formulario-registro">
-        <label for="nombre">Nombre completo</label>
-        <input id="nombre" name="nombre" type="text" required minlength="2" autocomplete="name" placeholder="Ej. María López">
+      <form id="formulario-registro" class="formulario-grid">
+        <div class="campo">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" name="nombre" type="text" required minlength="2" maxlength="80" autocomplete="name" placeholder="Ej. María López">
+        </div>
 
-        <label for="correo">Correo electrónico</label>
-        <input id="correo" name="correo" type="email" required autocomplete="email" placeholder="Ej. maria.lopez@correo.com">
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" required maxlength="100" autocomplete="email" placeholder="Ej. maria.lopez@correo.com">
+        </div>
 
-        <label for="taller">Taller</label>
-        <select id="taller" name="taller" required>
-          <option value="">Selecciona un taller</option>
-          <option value="HTML y CSS">HTML y CSS</option>
-          <option value="JavaScript">JavaScript</option>
-          <option value="Node.js y Express">Node.js y Express</option>
-        </select>
+        <div class="campo">
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" name="telefono" type="tel" required minlength="8" maxlength="15" pattern="[0-9+\-\s]{8,15}" title="Entre 8 y 15 caracteres: números, espacios, + o -" autocomplete="tel" placeholder="Ej. 5555-1234">
+        </div>
 
-        <label for="telefono">Teléfono</label>
-        <input id="telefono" name="telefono" type="tel" required autocomplete="tel" placeholder="Ej. 5555-1234">
+        <div class="campo">
+          <label for="taller">Taller</label>
+          <select id="taller" name="taller" required>
+            <option value="">Selecciona un taller</option>
+            <option value="HTML y CSS">HTML y CSS</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Node.js y Express">Node.js y Express</option>
+          </select>
+        </div>
 
-        <label for="horario">Horario</label>
-        <select id="horario" name="horario" required>
-          <option value="">Selecciona un horario</option>
-          <option value="Mañana">Mañana (7 a.m. - 11 a.m.)</option>
-          <option value="Tarde">Tarde (12 p.m. - 5 p.m.)</option>
-          <option value="Noche">Noche (6 p.m. - 9 p.m.)</option>
-        </select>
+        <div class="campo">
+          <label for="horario">Horario</label>
+          <select id="horario" name="horario" required>
+            <option value="">Selecciona un horario</option>
+            <option value="Mañana">Mañana (7 a.m. - 11 a.m.)</option>
+            <option value="Tarde">Tarde (12 p.m. - 5 p.m.)</option>
+            <option value="Noche">Noche (6 p.m. - 9 p.m.)</option>
+          </select>
+        </div>
 
-        <button type="submit">Registrar inscripción</button>
+        <div class="campo">
+          <label for="modalidad">Modalidad</label>
+          <select id="modalidad" name="modalidad" required>
+            <option value="">Selecciona una opción</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Virtual">Virtual</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="nivel_experiencia">Experiencia previa</label>
+          <select id="nivel_experiencia" name="nivel_experiencia" required>
+            <option value="">Selecciona un nivel</option>
+            <option value="Inicial">Inicial</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+          </select>
+        </div>
+
+        <div class="acciones-formulario">
+          <button id="boton-enviar" type="submit">Registrar inscripción</button>
+          <button id="boton-cancelar" class="boton-secundario" type="button" hidden>Cancelar edición</button>
+        </div>
       </form>
       <p id="mensaje" class="mensaje" role="status" aria-live="polite"></p>
     </section>
@@ -53,6 +85,33 @@
       <ul id="lista-inscripciones" aria-live="polite">
         <li class="vacio">Aún no hay inscripciones.</li>
       </ul>
+    </section>
+
+    <section class="panel" aria-labelledby="titulo-reportes">
+      <h2 id="titulo-reportes">Reportes</h2>
+      <p id="reportes-vacio" class="vacio">Todavía no hay inscripciones para reportar.</p>
+      <div class="resumen">
+        <article class="tarjeta tarjeta-total">
+          <h3>Total de inscripciones</h3>
+          <p id="total" class="total">0</p>
+        </article>
+        <article class="tarjeta">
+          <h3>Inscripciones por taller</h3>
+          <ul id="reporte-talleres" class="reporte-barras"></ul>
+        </article>
+        <article class="tarjeta">
+          <h3>Inscripciones por horario</h3>
+          <ul id="reporte-horarios" class="reporte-barras"></ul>
+        </article>
+        <article class="tarjeta">
+          <h3>Inscripciones por modalidad</h3>
+          <ul id="reporte-modalidades" class="reporte-barras"></ul>
+        </article>
+        <article class="tarjeta">
+          <h3>Inscripciones por experiencia</h3>
+          <ul id="reporte-niveles" class="reporte-barras"></ul>
+        </article>
+      </div>
     </section>
   </main>
 </body>
