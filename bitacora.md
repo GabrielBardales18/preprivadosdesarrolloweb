@@ -134,3 +134,25 @@ Actividad: Imagina que Ana completa el formulario y presiona Registrar.
 - Pregunta que podría aparecer en el examen:
   ¿Por qué no se sube la carpeta `node_modules` al repositorio y cómo se evita?
   Porque se puede regenerar con `npm install` y pesa mucho; se excluye agregándola a `.gitignore`.
+
+---
+
+## Proyecto final: versión con base de datos
+
+### Qué agregué
+- Base de datos SQLite (`database.js`) con la tabla `inscripciones`, que incluye `id` como clave primaria, los siete campos del formulario y `fecha_registro`.
+- Dos campos nuevos: **modalidad** (Presencial o Virtual) y **experiencia previa** (`nivel_experiencia`: Inicial, Intermedio o Avanzado).
+- Rutas PUT y DELETE para editar y eliminar, y la ruta `GET /api/reportes/resumen` para los reportes.
+- Botones Editar y Eliminar en la lista, y una sección de Reportes con el total y barras.
+
+### Preguntas para explicar
+- **¿Cómo llega un dato del formulario a la base?**
+  El usuario llena el formulario y JavaScript escucha el evento `submit`, llama a `preventDefault()` y lee los campos con `FormData`. Luego los envía como JSON con `fetch` a `POST /api/inscripciones`. Express los recibe en `req.body`, los valida y los guarda con un `INSERT` usando una sentencia preparada con `?`.
+- **¿Qué diferencia hay entre GET, POST, PUT y DELETE?**
+  GET consulta datos sin cambiarlos, POST crea un registro nuevo, PUT reemplaza los datos de un registro existente indicado por su `id` y DELETE elimina el registro indicado por su `id`.
+- **¿Cómo comprobaste que los datos persisten?**
+  Guardé inscripciones, detuve el servidor con `Ctrl + C`, lo volví a iniciar con `npm start` y recargué la página: los registros seguían ahí porque están en el archivo `registro_taller.db` y ya no en un arreglo en memoria.
+- **¿Qué consultas alimentan los reportes?**
+  `SELECT COUNT(*)` para el total, y `SELECT campo, COUNT(*) AS cantidad ... GROUP BY campo` para agrupar por taller, horario, modalidad y nivel de experiencia.
+- **¿Qué validas en el navegador y qué en Express?**
+  En el navegador uso `required`, `type="email"`, `minlength`/`maxlength` y `pattern` para avisar rápido al usuario. En Express repito todo: campos completos, formato de correo y teléfono, longitud del nombre y que cada select tenga una opción permitida. El servidor debe validar porque alguien puede enviar datos sin usar el formulario, por ejemplo desde la terminal.
