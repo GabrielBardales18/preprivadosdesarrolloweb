@@ -1,33 +1,94 @@
-# Proyecto: Registro de participantes para un taller — versión base
+# Registro de participantes para el taller de Desarrollo Web
 
-Esta es la carpeta inicial para completar durante el repaso interactivo de Desarrollo Web. Busca cada comentario `TODO` y sigue las instrucciones del paso 19, “Proyecto final”, en `Repaso_Interactivo_Desarrollo_Web.html`.
+## Objetivo
+Aplicación web para que una universidad registre a los participantes de su taller de Desarrollo Web. El estudiante llena un formulario con su **nombre completo, correo, teléfono, taller y horario**; la información se envía a una API hecha con Node.js y Express, que valida los datos, los guarda y devuelve la lista de participantes inscritos, la cual se muestra en la misma página.
+
+## Funcionalidades
+- Formulario con los cinco campos obligatorios y validación en el navegador (`required`, `type="email"`, `type="tel"`).
+- Envío con `fetch` y JSON, sin recargar la página.
+- Validación en el servidor: todos los campos completos y correo con formato válido.
+- Mensaje de confirmación o de error devuelto por el servidor.
+- Lista de participantes inscritos que se actualiza después de cada registro.
+- Diseño adaptable a teléfonos con un media query (640 px).
+
+## Tecnologías
+- HTML, CSS (Grid y media query) y JavaScript (DOM, eventos y `fetch`).
+- Node.js y Express.
 
 ## Requisitos
-- Node.js 18 o superior (se recomienda LTS) y Visual Studio Code.
+- Node.js 18 o superior (se recomienda la versión LTS).
+- Visual Studio Code u otro editor.
 - Conexión a internet la primera vez para instalar Express.
 
-## Ejecutar en VS Code
-1. Abre esta carpeta con **File → Open Folder**.
-2. Abre **Terminal → New Terminal**.
-3. Ejecuta `npm install`.
-4. Ejecuta `npm start`.
-5. Abre `http://localhost:3000`.
+## Instalación
+1. Clona o descarga el repositorio y abre la carpeta en VS Code con **File → Open Folder**.
+2. Abre una terminal con **Terminal → New Terminal**.
+3. Instala las dependencias:
+
+```bash
+npm install
+```
+
+## Inicio
+1. Inicia el servidor:
+
+```bash
+npm start
+```
+
+2. Abre `http://localhost:3000` en el navegador.
+3. Para detener el servidor, presiona `Ctrl + C` en la terminal.
 
 ### Si PowerShell bloquea npm.ps1
-Si aparece un mensaje que dice que la ejecución de scripts está deshabilitada, usa estos comandos en la misma terminal:
+Si aparece un mensaje que dice que la ejecución de scripts está deshabilitada, usa:
 
 ```powershell
 npm.cmd install
 npm.cmd start
 ```
 
-También puedes cambiar el perfil de la terminal de VS Code a **Command Prompt** y usar los comandos `npm install` y `npm start`.
+También puedes cambiar la terminal de VS Code a **Command Prompt** o **Git Bash**.
 
-El servidor y la ruta GET ya están preparados. Completa los TODO de HTML, CSS, JavaScript y la ruta POST. Los registros se guardan temporalmente en memoria y se borran al detener Node.
+## Rutas de la API
 
-## API solicitada
-- `GET /api/inscripciones`: devuelve el arreglo de registros en JSON.
-- `POST /api/inscripciones`: recibe nombre, correo, teléfono, taller y horario; valida y crea una inscripción. Usa estado `201` al crear y `400` si los datos no son válidos.
+### `GET /api/inscripciones`
+Devuelve en JSON el arreglo de participantes inscritos. Si aún no hay registros, devuelve `[]`.
 
-## Entrega en GitHub
-Sube el código fuente, `README.md` y `bitacora.md`. Completa al menos tres commits descriptivos y comparte el enlace del repositorio. No subas `node_modules/` ni archivos `.env`; ya están excluidos en `.gitignore`.
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Ana López",
+    "correo": "ana.lopez@correo.com",
+    "telefono": "5555-1234",
+    "taller": "JavaScript",
+    "horario": "Tarde"
+  }
+]
+```
+
+### `POST /api/inscripciones`
+Recibe en el cuerpo un JSON con `nombre`, `correo`, `telefono`, `taller` y `horario`.
+
+| Estado | Cuándo | Respuesta |
+|---|---|---|
+| `201 Created` | Los datos son válidos | El registro creado, con su `id` |
+| `400 Bad Request` | Falta algún campo o está vacío | `{ "mensaje": "Todos los campos son obligatorios." }` |
+| `400 Bad Request` | El correo no tiene formato válido | `{ "mensaje": "El correo no tiene un formato válido." }` |
+
+## Estructura del proyecto
+```
+registro-taller-estudiante/
+├── server.js          # Servidor Express y rutas de la API
+├── package.json       # Dependencias y script npm start
+├── public/
+│   ├── index.html     # Formulario y lista de participantes
+│   ├── styles.css     # Estilos, Grid y media query
+│   └── app.js         # Envío con fetch y dibujo de la lista
+├── README.md
+└── bitacora.md        # Bitácora de repaso
+```
+
+## Notas
+- Los registros se guardan **temporalmente en memoria**: se borran al detener o reiniciar el servidor.
+- Para las pruebas se usan datos inventados; no se ingresa información personal real.
